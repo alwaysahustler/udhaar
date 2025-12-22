@@ -34,7 +34,7 @@ export default function ProfilePage() {
           .maybeSingle();
 
         if (profileError) {
-          // ignore, user may not have a profile yet
+          // ignore, user may not have a profile yet for MVP
           return;
         }
 
