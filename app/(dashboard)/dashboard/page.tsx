@@ -30,6 +30,7 @@ export default async function DashboardPage() {
     }
   } catch (error) {
     // fail silently for MVP, UI stays generic
+    console.error('Error fetching profile:', error);
   }
 
   return (
