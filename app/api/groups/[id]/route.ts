@@ -20,6 +20,9 @@ export async function GET(
       return NextResponse.json({ error: 'Group not found' }, { status: 404 });
     }
 
+    // TypeScript type guard - group is definitely not null here
+    const groupData = group as { id: string; name: string; created_by: string };
+
     // Get group members
     const { data: members, error: membersError } = await supabase
       .from('group_members')
@@ -48,14 +51,14 @@ export async function GET(
     const { data: creator } = await supabase
       .from('profiles')
       .select('id, full_name, avatar_url')
-      .eq('id', group.created_by)
+      .eq('id', groupData.created_by)
       .single();
 
     return NextResponse.json({
       group: {
-        id: group.id,
-        name: group.name,
-        created_by: group.created_by,
+        id: groupData.id,
+        name: groupData.name,
+        created_by: groupData.created_by,
         creator: creator || null
       },
       members: (members || []).map((m: any) => ({
