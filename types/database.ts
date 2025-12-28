@@ -29,6 +29,13 @@ export interface SplitsRow {
   is_settled: boolean;
 }
 
+export interface GroupMembersRow {
+  id: UUID;
+  group_id: UUID;
+  user_id: UUID;
+  joined_at: string;
+}
+
 export interface Database {
   public: {
     Tables: {
@@ -51,6 +58,11 @@ export interface Database {
         Row: SplitsRow;
         Insert: Omit<SplitsRow, 'id'> & { id?: UUID };
         Update: Partial<Omit<SplitsRow, 'id'>>;
+      };
+      group_members: {
+        Row: GroupMembersRow;
+        Insert: Omit<GroupMembersRow, 'id' | 'joined_at'> & { id?: UUID; joined_at?: string };
+        Update: Partial<Omit<GroupMembersRow, 'id' | 'joined_at'>>;
       };
     };
   };

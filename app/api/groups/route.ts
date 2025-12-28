@@ -37,7 +37,23 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ id: (data as any).id });
+    const groupId = (data as any).id;
+
+    // Add creator as a member of the group
+    const { error: memberError } = await supabase
+      .from('group_members')
+      .insert({
+        group_id: groupId,
+        user_id: user.id,
+        joined_at: new Date().toISOString()
+      } as any);
+
+    if (memberError) {
+      console.error('Failed to add creator as member:', memberError);
+      // Don't fail the request, but log the error
+    }
+
+    return NextResponse.json({ id: groupId });
   } catch (err) {
     console.error('Unexpected error creating group:', err);
     return NextResponse.json({ error: 'Unexpected error' }, { status: 500 });

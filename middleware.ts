@@ -7,7 +7,8 @@ const PUBLIC_ROUTES = [
   '/auth',
   '/manifest.webmanifest',
   '/manifest.json',
-  '/icons'
+  '/icons',
+  '/groups/join' // Allow join route - page will handle auth redirect
 ];
 
 export async function middleware(req: NextRequest) {
